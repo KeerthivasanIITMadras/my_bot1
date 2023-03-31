@@ -1,0 +1,31 @@
+<launch>
+
+    <arg name="x" default="0.245" />
+    <arg name="y" default="-1.787" />
+    <arg name="z" default="0" />
+    <!-- <env name="GAZEBO_RESOURCE_PATH"
+        value="$(find my_bot1)/models/turtlebot3_autorace/ground_picture" />
+
+    <arg name="x_pos" default="0.245" />
+    <arg name="y_pos" default="-1.787" />
+    <arg name="z_pos" default="0" /> -->
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find my_bot1)/worlds/turtlebot3_autorace.world" />
+        <arg name="paused" value="false" />
+        <arg name="use_sim_time" value="true" />
+        <arg name="gui" value="true" />
+        <arg name="headless" value="false" />
+        <arg name="debug" value="false" />
+    </include>
+
+    <param name="robot_description"
+        command="$(find xacro)/xacro $(find my_bot1)/models/vikram/model.xacro" />
+        
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -param robot_description -model Vikram
+      -x $(arg x) -y $(arg y) -z $(arg z)" />
+
+    <!-- Never run this launch file inside the conda environment, it gives shitty results like the
+    xacro not found-->
+</launch>
